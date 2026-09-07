@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SIDSS</title>
+
+  <?!= include('Style'); ?>
+</head>
+
+<style>
+/* ===== PREMIUM FACULTY MARKS TABLE ===== */
+
+.students-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(12, 24, 43, 0.75);
+  border: 1px solid rgba(70, 140, 255, 0.14);
+}
+
+.students-table thead th {
+  padding: 16px 14px !important;
+  text-align: left;
+  background: rgba(7, 18, 35, 0.95) !important;
+  color: #7593bd !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(70, 140, 255, 0.12);
+}
+
+.students-table tbody tr {
+  transition: all .2s ease;
+}
+
+.students-table tbody tr:hover {
+  background: rgba(37, 99, 235, 0.08) !important;
+}
+
+.students-table tbody td {
+  padding: 17px 14px !important;
+  color: #aebfd8 !important;
+  font-size: 12px !important;
+  border-bottom: 1px solid rgba(70, 140, 255, 0.07);
+}
+
+.students-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.students-table tbody td:first-child {
+  color: #70adff !important;
+  font-weight: 600;
+}
+
+.students-table tbody td:nth-child(2) {
+  color: #edf4ff !important;
+  font-weight: 600;
+}
+
+.students-table tbody td:nth-child(5) {
+  color: #48c9ff !important;
+  font-weight: 700;
+  letter-spacing: .4px;
+}
+
+
+/* ===== PREMIUM ENTER MARKS BUTTON ===== */
+
+.students-table button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 105px;
+  padding: 9px 16px !important;
+
+  border: 1px solid rgba(70, 170, 255, .35) !important;
+  border-radius: 9px !important;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+  ) !important;
+
+  color: #ffffff !important;
+
+  font-size: 11px !important;
+  font-weight: 700 !important;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 20px rgba(37, 99, 235, .20);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
+}
+
+.students-table button:hover {
+  transform: translateY(-2px) !important;
+
+  filter: brightness(1.1);
+
+  box-shadow:
+    0 10px 28px rgba(37, 99, 235, .35);
+}
+
+.students-table button:active {
+  transform: scale(.97) !important;
+}
+
+
+/* ===== PREMIUM LOADING ===== */
+
+.faculty-loading-wrapper {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 330px;
+  padding: 40px 20px;
+}
+
+.faculty-loading-card {
+  width: min(460px, 100%);
+  padding: 38px 32px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 34, 57, .97),
+      rgba(7, 17, 34, .99)
+    ) !important;
+
+  border: 1px solid rgba(70, 150, 255, .20) !important;
+  border-radius: 24px !important;
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.05);
+
+  animation: facultyLoadingAppear .4s ease;
+}
+
+.faculty-loading-icon {
+  position: relative;
+
+  width: 76px;
+  height: 76px;
+
+  margin: 0 auto 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-ring {
+  position: absolute;
+
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+
+  border: 3px solid rgba(50,150,255,.12);
+
+  border-top-color: #2196f3;
+  border-right-color: #06b6d4;
+
+  animation: facultySpin 1s linear infinite;
+
+  box-shadow: 0 0 28px rgba(33,150,243,.2);
+}
+
+.loading-core {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #06b6d4
+  ) !important;
+
+  color: white !important;
+
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.faculty-loading-text h3 {
+  margin: 0 0 8px;
+
+  color: #f5f8ff !important;
+  font-size: 19px;
+}
+
+.faculty-loading-text p {
+  margin: 0;
+
+  color: #7f91ad !important;
+  font-size: 13px;
+}
+
+.faculty-loading-bar {
+  height: 4px;
+
+  max-width: 300px;
+
+  margin: 25px auto 16px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: rgba(255,255,255,.07);
+}
+
+.faculty-loading-progress {
+  width: 40%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #06b6d4
+  ) !important;
+
+  animation: facultyProgress 1.2s ease-in-out infinite;
+}
+
+.faculty-loading-status {
+  color: #4fa7ff !important;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
+
+@keyframes facultySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes facultyProgress {
+  0% {
+    transform: translateX(-150%);
+  }
+
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+@keyframes facultyLoadingAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
+
+<body>
+
+<div id="loginPage" class="login-page">
+
+  <div class="login-wrapper">
+
+    <!-- LEFT -->
+    <section class="brand-panel">
+
+      <div class="brand-logo">SIDSS</div>
+
+      <div class="brand-badge">
+        STUDENT INTELLIGENCE PLATFORM
+      </div>
+
+      <h1>
+        AI STUDENT INTELLIGENCE &<br>
+        DECISION SUPPORT SYSTEM
+      </h1>
+
+      <p>
+        A centralized Student Intelligence & Decision Support
+        System for academic monitoring, attendance,
+        placements, skills and institutional analytics.
+      </p>
+
+      <div class="feature-row">
+
+        <div>
+          <strong>12</strong>
+          <span>Data Modules</span>
+        </div>
+
+        <div>
+          <strong>5</strong>
+          <span>User Roles</span>
+        </div>
+
+        <div>
+          <strong>360°</strong>
+          <span>Student View</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT -->
+    <section class="login-panel">
+
+      <div class="login-card">
+
+        <div class="mobile-logo">S</div>
+
+        <p class="welcome">WELCOME TO SIDSS</p>
+
+        <h2>Sign in to your account</h2>
+
+        <p class="login-description">
+          Enter your institutional credentials to continue.
+        </p>
+
+
+        <form id="loginForm">
+
+          <label>Email Address</label>
+
+          <div class="input-box">
+            <span>✉</span>
+
+            <input
+              type="email"
+              id="email"
+              placeholder="name@sidss.edu"
+              autocomplete="username"
+              required>
+          </div>
+
+
+          <label>Password</label>
+
+          <div class="input-box">
+
+            <span>●</span>
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required>
+
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword()">
+              Show
+            </button>
+
+          </div>
+
+
+          <div id="loginMessage"></div>
+
+
+          <button
+            type="submit"
+            id="loginButton"
+            class="primary-button">
+
+            <span id="loginButtonText">
+              Sign In
+            </span>
+
+          </button>
+
+        </form>
+
+
+        <div class="security-note">
+          🔒 Role-based secure institutional access
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
+
+
+<!-- APPLICATION WILL LOAD HERE AFTER LOGIN -->
+
+<div id="appPage" class="dashboard-app hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+      <div class="sidebar-logo">
+        SIDSS
+      </div>
+
+      <div class="sidebar-brand-text">
+        AI STUDENT INTELLIGENCE &<br>
+        DECISION SUPPORT SYSTEM
+      </div>
+
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="sidebarAvatar">U</div>
+
+      <div>
+        <strong id="sidebarName">User</strong>
+        <span id="sidebarRole">Role</span>
+      </div>
+    </div>
+
+
+    <nav id="sidebarMenu">
+
+      <button class="nav-item active" data-page="dashboard">
+        <span>⌂</span>
+        Dashboard
+      </button>
+
+      <button class="nav-item" data-page="students">
+        <span>♙</span>
+        Students
+      </button>
+
+      <button
+        id="academicsNavItem"
+        class="nav-item"
+        data-page="academics"
+      >
+        <span>▣</span>
+        Academics
+      </button>
+
+      <button
+        id="attendanceNavItem"
+        class="nav-item"
+        data-page="attendance"
+      >
+        <span>✓</span>
+        Attendance
+      </button>
+
+      <button class="nav-item" data-page="placement">
+        <span>◆</span>
+        Placement
+      </button>
+
+      <button class="nav-item" data-page="skills">
+        <span>⚡</span>
+        Skills
+      </button>
+
+      <button class="nav-item" data-page="training">
+        <span>★</span>
+        Training & Certificates
+      </button>
+
+      <button class="nav-item" data-page="reports">
+        <span>▤</span>
+        Reports
+      </button>
+
+      <button class="nav-item" data-page="events">
+        <span>◫</span>
+        Events
+      </button>
+
+      <button
+        id="usersMenu"
+        class="nav-item admin-only hidden"
+        data-page="users">
+
+        <span>♚</span>
+        User Management
+
+      </button>
+
+      <button
+        id="auditMenu"
+        class="nav-item admin-only hidden"
+        data-page="audit">
+
+        <span>☷</span>
+        Audit Logs
+
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <button class="logout-button" onclick="animateLogout(this)">
+        ↪ Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN APPLICATION -->
+  <main class="main-area">
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button
+          type="button"
+          id="sidebarToggle"
+          class="sidebar-toggle"
+          onclick="toggleSidebar()"
+          title="Toggle sidebar"
+          aria-label="Toggle sidebar">
+          ☰
+        </button>
+
+        <p class="breadcrumb">
+          SIDSS / <span id="currentPageLabel">Dashboard</span>
+        </p>
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <div class="global-search">
+
+        <button class="icon-button">
+          🔔
+        </button>
+
+
+        <div class="top-user">
+
+          <div class="top-avatar" id="topAvatar">
+            U
+          </div>
+
+          <div>
+            <strong id="topUserName">
+              User
+            </strong>
+
+            <span id="topUserRole">
+              Role
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- DYNAMIC CONTENT -->
+
+    <section id="mainContent" class="main-content">
+
+      <div class="dashboard-loading">
+
+        <div class="loader"></div>
+
+        <p>
+          Preparing your intelligence dashboard...
+        </p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<?!= include('Script'); ?>
+
+</body>
+</html>
