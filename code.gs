@@ -9552,8 +9552,6 @@ function calculateAttendanceTrend(records) {
 
 }
 
-
-
 function getAtRiskStudents(user) {
 
   try {
